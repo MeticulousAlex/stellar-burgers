@@ -3,20 +3,19 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { LoginUI } from '@ui-pages';
 import { useDispatch } from '../../services/store';
 import { loginUser } from '../../services/slices/userSlice';
+import { useForm } from '../../hooks/useForm';
 
 export const Login: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [errorText, setErrorText] = useState('');
+  const { values, handleChange } = useForm({ email: '', password: '' });
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     setErrorText('');
-    dispatch(loginUser({ email, password }))
+    dispatch(loginUser({ email: values.email, password: values.password }))
       .unwrap()
       .then(() => {
         const from =
@@ -32,10 +31,9 @@ export const Login: FC = () => {
   return (
     <LoginUI
       errorText={errorText}
-      email={email}
-      setEmail={setEmail}
-      password={password}
-      setPassword={setPassword}
+      email={values.email}
+      password={values.password}
+      handleChange={handleChange}
       handleSubmit={handleSubmit}
     />
   );

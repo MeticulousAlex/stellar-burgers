@@ -3,20 +3,28 @@ import { useNavigate } from 'react-router-dom';
 import { RegisterUI } from '@ui-pages';
 import { useDispatch } from '../../services/store';
 import { registerUser } from '../../services/slices/userSlice';
+import { useForm } from '../../hooks/useForm';
 
 export const Register: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [userName, setUserName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [errorText, setErrorText] = useState('');
+  const { values, handleChange } = useForm({
+    name: '',
+    email: '',
+    password: ''
+  });
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     setErrorText('');
-    dispatch(registerUser({ name: userName, email, password }))
+    dispatch(
+      registerUser({
+        name: values.name,
+        email: values.email,
+        password: values.password
+      })
+    )
       .unwrap()
       .then(() => {
         navigate('/');
@@ -29,12 +37,10 @@ export const Register: FC = () => {
   return (
     <RegisterUI
       errorText={errorText}
-      email={email}
-      userName={userName}
-      password={password}
-      setEmail={setEmail}
-      setPassword={setPassword}
-      setUserName={setUserName}
+      email={values.email}
+      userName={values.name}
+      password={values.password}
+      handleChange={handleChange}
       handleSubmit={handleSubmit}
     />
   );

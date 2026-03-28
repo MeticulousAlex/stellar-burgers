@@ -81,14 +81,16 @@ const App: FC = () => {
               </Modal>
             }
           />
-          <Route
-            path='/profile/orders/:number'
-            element={
-              <Modal title='Детали заказа' onClose={() => navigate(-1)}>
-                <OrderInfo />
-              </Modal>
-            }
-          />
+          <Route element={<ProtectedRoute />}>
+            <Route
+              path='/profile/orders/:number'
+              element={
+                <Modal title='Детали заказа' onClose={() => navigate(-1)}>
+                  <OrderInfo />
+                </Modal>
+              }
+            />
+          </Route>
         </Routes>
       )}
     </div>
