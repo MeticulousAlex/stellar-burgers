@@ -1,0 +1,40 @@
+import { rootReducer } from '../rootReducer';
+
+describe('rootReducer', () => {
+  it('должен возвращать корректное начальное состояние при неизвестном экшене', () => {
+    const state = rootReducer(undefined, { type: 'UNKNOWN_ACTION' });
+
+    expect(state.ingredients).toEqual({
+      items: [],
+      isLoading: false,
+      error: null
+    });
+
+    expect(state.burgerConstructor).toEqual({
+      bun: null,
+      ingredients: []
+    });
+
+    expect(state.order).toEqual({
+      orderRequest: false,
+      orderModalData: null,
+      error: null
+    });
+
+    expect(state.feed).toEqual({
+      orders: [],
+      total: 0,
+      totalToday: 0,
+      isLoading: false,
+      error: null
+    });
+
+    expect(state.user).toEqual({
+      isAuthChecked: false,
+      user: null,
+      orders: [],
+      isLoading: false,
+      error: null
+    });
+  });
+});
